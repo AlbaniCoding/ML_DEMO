@@ -5,7 +5,6 @@ import joblib
 
 st.set_page_config(
     page_title="Insomnia Risk Predictor",
-    page_icon="🌙",
     layout="wide",
 )
 
