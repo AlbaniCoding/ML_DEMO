@@ -32,7 +32,7 @@ FEATURE_COLS  = ['Sleep_Hours', 'Caffeine', 'Screen_Time', 'Exercise', 'Stress_L
 
 @st.cache_resource(show_spinner="Memuat model…")
 def load_artifacts():
-    return joblib.load("Logistic_Regression_Model.pkl")
+    return joblib.load("Random_Forest_Model.pkl")
 
 try:
     pipeline = load_artifacts()
