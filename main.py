@@ -36,7 +36,7 @@ def load_artifacts():
 try:
     pipeline = load_artifacts()
 except FileNotFoundError as e:
-    st.error(f"File tidak ditemukan: `{e.filename}`\n\nPastikan `model.pkl` dan `scaler.pkl` ada di direktori yang sama dengan `streamlit_app.py`.")
+    st.error(f"File tidak ditemukan")
     st.stop()
 
 def predict_risk(profile: dict) -> float:
@@ -143,7 +143,7 @@ with tab1:
         border    = "2px solid #28a745" if is_best else "1px solid #dee2e6"
         bg        = "#f0fff4" if is_best else "#fafafa"
         imp_color = "#155724" if r['improvement'] > 0 else "#6c757d"
-        badge     = " OK" if is_best else ""
+        badge     = " (Solusi Terbaik)" if is_best else ""
         col.markdown(f"""
 <div style="border:{border}; border-radius:10px; color: black; padding:14px; background:{bg}; text-align:center; height:130px">
     <div style="font-size:.82rem; font-weight:600; margin-bottom:6px">{r['action']}{badge}</div>
