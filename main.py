@@ -70,11 +70,11 @@ profile = {
 }
 
 st.sidebar.markdown("---")
-st.sidebar.caption("Model: Logistic Regression + SMOTE")
-st.sidebar.caption("Loaded from `model.pkl` & `scaler.pkl`")
+st.sidebar.caption("Model: Random Forest")
+st.sidebar.caption("Loaded from pickle")
 
 st.title("🌙 Insomnia Risk Predictor")
-st.markdown("Demonstrasi model **Logistic Regression** untuk memprediksi risiko insomnia mahasiswa berdasarkan gaya hidup.")
+st.markdown("Demonstrasi model **Random Forest** untuk memprediksi risiko insomnia mahasiswa berdasarkan gaya hidup.")
 
 tab1 = st.tabs(["📊 Prediksi & Simulasi"])[0]
 
