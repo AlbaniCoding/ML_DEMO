@@ -37,7 +37,7 @@ def load_artifacts():
 try:
     pipeline = load_artifacts()
 except FileNotFoundError as e:
-    st.error(f"❌ File tidak ditemukan: `{e.filename}`\n\nPastikan `model.pkl` dan `scaler.pkl` ada di direktori yang sama dengan `streamlit_app.py`.")
+    st.error(f"File tidak ditemukan: `{e.filename}`\n\nPastikan `model.pkl` dan `scaler.pkl` ada di direktori yang sama dengan `streamlit_app.py`.")
     st.stop()
 
 def predict_risk(profile: dict) -> float:
@@ -47,19 +47,19 @@ def predict_risk(profile: dict) -> float:
 
 def risk_label(pct):
     if pct < 35:
-        return "Risiko Rendah 🟢", "risk-low"
+        return "Risiko Rendah", "risk-low"
     elif pct < 65:
-        return "Risiko Sedang 🟡", "risk-med"
+        return "Risiko Sedang", "risk-med"
     else:
-        return "Risiko Tinggi 🔴", "risk-high"
+        return "Risiko Tinggi", "risk-high"
 
-st.sidebar.header("🎛️ Profil Mahasiswa")
+st.sidebar.header("Profil Mahasiswa")
 
-sleep_idx    = st.sidebar.select_slider("💤 Durasi Tidur per Hari",      options=list(range(5)), format_func=lambda i: SLEEP_LABELS[i],  value=2)
-caffeine_idx = st.sidebar.select_slider("☕ Konsumsi Kafein",             options=list(range(5)), format_func=lambda i: FREQ_LABELS[i],   value=2)
-screen_idx   = st.sidebar.select_slider("📱 Screen Time Sebelum Tidur",  options=list(range(5)), format_func=lambda i: FREQ_LABELS[i],   value=3)
-exercise_idx = st.sidebar.select_slider("🏃 Frekuensi Olahraga",         options=list(range(5)), format_func=lambda i: FREQ_LABELS[i],   value=1)
-stress_idx   = st.sidebar.select_slider("😰 Tingkat Stres Akademik",     options=list(range(4)), format_func=lambda i: STRESS_LABELS[i], value=2)
+sleep_idx    = st.sidebar.select_slider("Durasi Tidur per Hari",      options=list(range(5)), format_func=lambda i: SLEEP_LABELS[i],  value=2)
+caffeine_idx = st.sidebar.select_slider("Konsumsi Kafein",             options=list(range(5)), format_func=lambda i: FREQ_LABELS[i],   value=2)
+screen_idx   = st.sidebar.select_slider("Screen Time Sebelum Tidur",  options=list(range(5)), format_func=lambda i: FREQ_LABELS[i],   value=3)
+exercise_idx = st.sidebar.select_slider("Frekuensi Olahraga",         options=list(range(5)), format_func=lambda i: FREQ_LABELS[i],   value=1)
+stress_idx   = st.sidebar.select_slider("Tingkat Stres Akademik",     options=list(range(4)), format_func=lambda i: STRESS_LABELS[i], value=2)
 
 profile = {
     'Sleep_Hours':  SLEEP_MAP[sleep_idx],
@@ -73,10 +73,10 @@ st.sidebar.markdown("---")
 st.sidebar.caption("Model: Random Forest")
 st.sidebar.caption("Loaded from pickle")
 
-st.title("🌙 Insomnia Risk Predictor")
+st.title("Insomnia Risk Predictor")
 st.markdown("Demonstrasi model **Random Forest** untuk memprediksi risiko insomnia mahasiswa berdasarkan gaya hidup.")
 
-tab1 = st.tabs(["📊 Prediksi & Simulasi"])[0]
+tab1 = st.tabs(["Prediksi & Simulasi"])[0]
 
 with tab1:
     base_risk = predict_risk(profile)
@@ -97,11 +97,11 @@ with tab1:
         st.markdown(f"""
 | Faktor | Nilai |
 |---|---|
-| 💤 Durasi Tidur | {SLEEP_LABELS[sleep_idx]} |
-| ☕ Kafein | {FREQ_LABELS[caffeine_idx]} |
-| 📱 Screen Time | {FREQ_LABELS[screen_idx]} |
-| 🏃 Olahraga | {FREQ_LABELS[exercise_idx]} |
-| 😰 Stres | {STRESS_LABELS[stress_idx]} |
+| Durasi Tidur | {SLEEP_LABELS[sleep_idx]} |
+| Kafein | {FREQ_LABELS[caffeine_idx]} |
+| Screen Time | {FREQ_LABELS[screen_idx]} |
+| Olahraga | {FREQ_LABELS[exercise_idx]} |
+| Stres | {STRESS_LABELS[stress_idx]} |
 """)
 
     with col_gauge:
@@ -120,15 +120,15 @@ with tab1:
         plt.close()
 
     st.markdown("---")
-    st.subheader("🔄 What-If Analysis")
+    st.subheader("What-If Analysis")
     st.caption("Simulasi dampak jika satu kebiasaan diubah menjadi lebih baik.")
 
     scenarios = {
-        "💤 Tambah Tidur":        {**profile, 'Sleep_Hours':  min(1, profile['Sleep_Hours'] + 1)},
-        "☕ Kurangi Kafein":       {**profile, 'Caffeine':     max(0, profile['Caffeine'] - 1)},
-        "📱 Kurangi Screen Time": {**profile, 'Screen_Time':  max(0, profile['Screen_Time'] - 1)},
-        "🏃 Tambah Olahraga":     {**profile, 'Exercise':     min(4, profile['Exercise'] + 1)},
-        "😌 Kurangi Stres":       {**profile, 'Stress_Level': max(0, profile['Stress_Level'] - 1)},
+        "Tambah Tidur":        {**profile, 'Sleep_Hours':  min(1, profile['Sleep_Hours'] + 1)},
+        "Kurangi Kafein":       {**profile, 'Caffeine':     max(0, profile['Caffeine'] - 1)},
+        "Kurangi Screen Time": {**profile, 'Screen_Time':  max(0, profile['Screen_Time'] - 1)},
+        "Tambah Olahraga":     {**profile, 'Exercise':     min(4, profile['Exercise'] + 1)},
+        "Kurangi Stres":       {**profile, 'Stress_Level': max(0, profile['Stress_Level'] - 1)},
     }
 
     results = sorted(
@@ -144,7 +144,7 @@ with tab1:
         border    = "2px solid #28a745" if is_best else "1px solid #dee2e6"
         bg        = "#f0fff4" if is_best else "#fafafa"
         imp_color = "#155724" if r['improvement'] > 0 else "#6c757d"
-        badge     = " ⭐" if is_best else ""
+        badge     = " OK" if is_best else ""
         col.markdown(f"""
 <div style="border:{border}; border-radius:10px; color: black; padding:14px; background:{bg}; text-align:center; height:130px">
     <div style="font-size:.82rem; font-weight:600; margin-bottom:6px">{r['action']}{badge}</div>
