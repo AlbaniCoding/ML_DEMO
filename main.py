@@ -26,12 +26,13 @@ st.markdown("""
 FREQ_LABELS   = ['Never', 'Rarely (1-2x/week)', 'Sometimes (3-4x/week)', 'Often (5-6x/week)', 'Every day']
 SLEEP_LABELS  = ['< 4 hrs', '4–5 hrs', '6–7 hrs', '7–8 hrs (optimal)', '> 8 hrs']
 STRESS_LABELS = ['No stress', 'Low stress', 'High stress', 'Extremely high stress']
-SLEEP_MAP     = {0: 0, 1: 0, 2: 0, 3: 1, 4: 0}
+SLEEP_MAP = {0: 1, 1: 2, 2: 3, 3: 4, 4: 5}
 FEATURE_COLS  = ['Sleep_Hours', 'Caffeine', 'Screen_Time', 'Exercise', 'Stress_Level']
 
+MODEL_PATH = "Random_Forest_Model.pkl"
 @st.cache_resource(show_spinner="Loading model…")
 def load_artifacts():
-    return joblib.load("Random_Forest_Model.pkl")
+    return joblib.load(MODEL_PATH)
 
 try:
     pipeline = load_artifacts()
@@ -59,6 +60,9 @@ caffeine_idx = st.sidebar.select_slider("Caffeine Intake",            options=li
 screen_idx   = st.sidebar.select_slider("Screen Time Before Sleep",   options=list(range(5)), format_func=lambda i: FREQ_LABELS[i],   value=3)
 exercise_idx = st.sidebar.select_slider("Exercise Frequency",         options=list(range(5)), format_func=lambda i: FREQ_LABELS[i],   value=1)
 stress_idx   = st.sidebar.select_slider("Academic Stress Level",      options=list(range(4)), format_func=lambda i: STRESS_LABELS[i], value=2)
+
+st.sidebar.markdown("---")
+st.sidebar.caption("Loaded Model: " + MODEL_PATH)
 
 profile = {
     'Sleep_Hours':  SLEEP_MAP[sleep_idx],
@@ -103,7 +107,7 @@ st.subheader("What-If Analysis")
 st.caption("Simulate the impact of improving one habit at a time.")
 
 scenarios = {
-    "More Sleep":          {**profile, 'Sleep_Hours':  min(1, profile['Sleep_Hours'] + 1)},
+    "More Sleep": {**profile, 'Sleep_Hours': min(5, profile['Sleep_Hours'] + 1)},
     "Less Caffeine":       {**profile, 'Caffeine':     max(0, profile['Caffeine'] - 1)},
     "Less Screen Time":    {**profile, 'Screen_Time':  max(0, profile['Screen_Time'] - 1)},
     "More Exercise":       {**profile, 'Exercise':     min(4, profile['Exercise'] + 1)},
